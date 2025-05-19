@@ -5,6 +5,14 @@
   --foreground: #171717;
 }
 
+@theme 
+{
+  --color-background: #060404;
+  --color-text: var(--color-teal-300);
+  --color-primary: #434343;
+  --color-primary-border: #0070f3;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
