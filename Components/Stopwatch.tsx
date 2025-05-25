@@ -3,21 +3,23 @@
 
 import { useEffect, useState } from "react";
 
+
+// Time values for tracking
+  let hour = 0;
+  let minute = 0;
+  let second = 0;
+  let ms = 0;
+
 // "HH:MM:SS" format
 export default function Clock() {
 
     const [currentTime, SetTime] = useState("00:00:00:00");
 
-    let hour = 0;
-    let minute = 0;
-    let second = 0;
-    let ms = 0;
-
     // Update the timer every second
     useEffect(() => {
     const interval = setInterval(() => {
         ms += 1;
-        if (ms >= 1000) {
+        if (ms >= 100) {
             ms = 0;
             second += 1;
         }
@@ -29,9 +31,12 @@ export default function Clock() {
             minute = 0;
             hour += 1;
         }
-
-        SetTime(hour + ":" + minute + ":" + second + ":" + ms);
-    }, 100);
+        console.log("SET")
+        SetTime(( hour < 10 ? "0" : "") + hour +":"
+        + ( minute < 10 ? "0" : "") + minute + ":"
+        + ( second < 10 ? "0" : "") + second + ":"
+        + ( ms < 10 ? "0" : "") + ms);
+    }, 1);
 
     return () => clearInterval(interval);
     })
