@@ -1,16 +1,40 @@
+"use client"
+
 import Clock from "@/Components/Clock";
 import Sidebar from "@/Components/Sidebar";
-
-
+import { useState } from "react";
+import { PageSwitcherContext } from "./PageSwitcherContext";
+import Stopwatch from "@/Components/Stopwatch";
 
 
 
 export default function Main () 
 {
+    const [currentWindow, setCurrentWindow] = useState(0);
+
+    let usingComponent;
+    console.log("CURRENT WINDOW: " + currentWindow);
+    switch (currentWindow) {
+        case 0:
+            usingComponent = <Clock />;
+            break;
+        case 1:
+            usingComponent = <Stopwatch />;
+            break;
+        case 2:
+            usingComponent = <div>Interval Timer</div>;
+            break;
+    }
+
     return (
     <div className="flex flex-row">
-    <Sidebar/ >
-    <Clock/ >
+
+    <PageSwitcherContext.Provider value={{currentWindow, setCurrentWindow}}>
+        <Sidebar/ >
+    </PageSwitcherContext.Provider>
+
+
+    {usingComponent}
     </div>
     )
 }
