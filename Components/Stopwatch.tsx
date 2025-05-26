@@ -13,11 +13,11 @@ import { useEffect, useState } from "react";
 
 
 // "HH:MM:SS" format
-export default function Clock() {
+export default function Stopwatch() {
 
     const [currentTime, SetTime] = useState("00:00:00:00");
 
-      function ResetTimer() 
+    function ResetTimer() 
   {
     hour = 0;
     minute = 0;
@@ -60,7 +60,7 @@ export default function Clock() {
     
   return (
     <div className="flex flex-col items-center justify-center h-screen w-screen">
-      <h1 className="text-text text-4xl font-bold mb-4">Clock</h1>
+      <h1 className="text-text text-4xl font-bold mb-4">Stopwatch</h1>
       <div className="text-text text-2xl">
         {currentTime}
       </div>
