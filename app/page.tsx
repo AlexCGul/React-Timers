@@ -5,6 +5,7 @@ import Sidebar from "@/Components/Sidebar";
 import { useState } from "react";
 import { PageSwitcherContext } from "./PageSwitcherContext";
 import Stopwatch from "@/Components/Stopwatch";
+import IntervalTimer from "@/Components/IntervalTimer";
 
 
 
@@ -22,7 +23,7 @@ export default function Main ()
             usingComponent = <Stopwatch />;
             break;
         case 2:
-            usingComponent = <div>Interval Timer</div>;
+            usingComponent = <IntervalTimer />;
             break;
     }
 
