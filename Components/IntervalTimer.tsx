@@ -2,6 +2,7 @@
 
 
 import { useEffect, useState } from "react";
+import ScheduleSlot from "./ScheduleSlot";
 
 type IntervalSlot = 
 {
@@ -34,8 +35,11 @@ export default function IntervalTimer() {
         console.log(title, " ", delay, " ", duration);
         // Clear old values
         setTitle("");
+        
+        /* While this seems logical it's bad UX
         setDelay(-1);
         setDuration(-1);
+        */
         
     }
 
@@ -53,6 +57,7 @@ export default function IntervalTimer() {
   return (
     <div className="flex flex-col items-center justify-center h-screen w-screen">
 
+        {/*Clock*/}
         <h1 className="text-text text-4xl font-bold mb-4">Clock</h1>
         <div className="text-text text-2xl">
           {currentTime}
@@ -61,14 +66,12 @@ export default function IntervalTimer() {
         {/*The scheduler*/}
         <h2 className="text-text text-3xl font-bold mt-8 mb-4">Scheduler</h2>
         <div className="flex flex-col items-center justify-center w-full max-w-md">
-            {intervalSlotsState.map((slot, index) => (
-                <div key={index} className="bg-secondary text-text p-4 rounded m-2 w-full">
-                    <h3 className="text-xl font-bold">{slot.title}</h3>
-                    <p>Delay: {slot.delay} seconds</p>
-                    <p>Duration: {slot.duration} seconds</p>
-                </div>
-            ))}
-          </div>
+            {
+              // Draw out all the slots
+              intervalSlotsState.map((slot, key) => (
+                ScheduleSlot({ title: slot.title, delay: slot.delay, duration: slot.duration, key: key }) ))
+            }
+        </div>
 
         {/*Add new entry to scheduler*/}
         <form className="flex flex-col items-center justify-center" onSubmit=
