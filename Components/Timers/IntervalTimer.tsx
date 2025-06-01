@@ -2,7 +2,8 @@
 
 
 import { useEffect, useState } from "react";
-import ScheduleSlot from "./ScheduleSlot";
+import ScheduleSlot from "../ScheduleSlot";
+import { ScheduleSlotContext } from "../Switchers/ScheduleSlotContext";
 
 type IntervalSlot = 
 {
@@ -22,6 +23,9 @@ export default function IntervalTimer() {
     const [title, setTitle] = useState("");
     const [delay, setDelay] = useState(-1);
     const [duration, setDuration] = useState(-1);
+
+    // Reposition values
+    const [position, setPosition] = useState({oldID: -1, newID: -1});
  
     // Add a new interval slot
     const AddIntervalSlot = (title: string, delay: number, duration: number) => 
@@ -32,7 +36,6 @@ export default function IntervalTimer() {
             duration: duration
         }]);
 
-        console.log(title, " ", delay, " ", duration);
         // Clear old values
         setTitle("");
         
@@ -42,6 +45,31 @@ export default function IntervalTimer() {
         */
         
     }
+
+    function MoveSlot(oldID: number, newID: number)
+    {
+        // If the new ID is out of bounds, do nothing
+        if (newID < 0 || newID >= intervalSlotsState.length) return;
+
+        // Create a copy of the current slots
+        const newSlots = [...intervalSlotsState];
+
+        // Get the slot to move
+        const slotToMove = newSlots[oldID];
+
+        // Remove the slot from its old position
+        newSlots.splice(oldID, 1);
+
+        // Insert the slot at the new position
+        newSlots.splice(newID, 0, slotToMove);
+
+        setPosition({oldID: -1, newID: -1}); // Reset the position after moving
+        // Update the state with the new slots
+        setIntervalSlotsState(newSlots);
+    }
+
+    MoveSlot(position.oldID, position.newID);
+
 
     // Update the timer every second
     useEffect(() => {
@@ -66,11 +94,21 @@ export default function IntervalTimer() {
         {/*The scheduler*/}
         <h2 className="text-text text-3xl font-bold mt-8 mb-4">Scheduler</h2>
         <div className="flex flex-col items-center justify-center w-full max-w-md">
-            {
-              // Draw out all the slots
-              intervalSlotsState.map((slot, key) => (
-                ScheduleSlot({ title: slot.title, delay: slot.delay, duration: slot.duration, key: key }) ))
-            }
+            <ScheduleSlotContext.Provider value={{ newID: position.newID, oldID: position.oldID, updatePosition: setPosition }}>
+              {
+                // Draw out all the slots
+                intervalSlotsState.map((slot, key) => (
+                <ScheduleSlot
+                  key={key}
+                  nkey={key}
+                  title={slot.title}
+                  delay={slot.delay}
+                  duration={slot.duration}
+                />
+              ))
+              }
+            </ScheduleSlotContext.Provider>
+
         </div>
 
         {/*Add new entry to scheduler*/}

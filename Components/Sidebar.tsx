@@ -1,6 +1,6 @@
 "use client";
 
-import { PageSwitcherContext } from "@/app/PageSwitcherContext";
+import { PageSwitcherContext } from "@/Components/Switchers/PageSwitcherContext";
 import { useContext } from "react";
 
 export default function Sidebar() 
